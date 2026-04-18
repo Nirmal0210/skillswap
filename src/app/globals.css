@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Arial", "Helvetica", sans-serif;
+  --font-mono: "Courier New", monospace;
+
+  --color-background:    #ffffff;
+  --color-foreground:    #171717;
+
+  --color-coral:         #C85A30;
+  --color-coral-light:   #FAECE7;
+  --color-coral-dark:    #993C1D;
+
+  --color-teal-light:    #E1F5EE;
+  --color-teal-dark:     #0F6E56;
+
+  --color-purple-light:  #EEEDFE;
+  --color-purple-dark:   #534AB7;
+
+  --color-amber-light:   #FAEEDA;
+  --color-amber-dark:    #854F0B;
+
+  --color-muted:         #6b7280;
+  --color-border:        #e5e7eb;
+  --color-surface:       #f9fafb;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background:    var(--background);
+  --color-foreground:    var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --color-coral:         #C85A30;
+  --color-coral-light:   #FAECE7;
+  --color-coral-dark:    #993C1D;
+
+  --color-teal-light:    #E1F5EE;
+  --color-teal-dark:     #0F6E56;
+
+  --color-purple-light:  #EEEDFE;
+  --color-purple-dark:   #534AB7;
+
+  --color-amber-light:   #FAEEDA;
+  --color-amber-dark:    #854F0B;
+
+  --color-muted:         #6b7280;
+  --color-border:        #e5e7eb;
+  --color-surface:       #f9fafb;
+}
+
+.dark {
+  --background:          #0f0f0f;
+  --foreground:          #ededed;
+
+  --color-coral:         #e8714a;
+  --color-coral-light:   #2a1510;
+  --color-coral-dark:    #f0957a;
+
+  --color-teal-light:    #0a2a1f;
+  --color-teal-dark:     #5dcaa5;
+
+  --color-purple-light:  #1a1830;
+  --color-purple-dark:   #afa9ec;
+
+  --color-amber-light:   #2a1f08;
+  --color-amber-dark:    #fac775;
+
+  --color-muted:         #9ca3af;
+  --color-border:        #2a2a2a;
+  --color-surface:       #1a1a1a;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
 }
