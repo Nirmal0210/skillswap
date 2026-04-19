@@ -5,18 +5,41 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import { ACTIVE_USERS } from "@/lib/constants";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    router.push("/dashboard");
+  };
 
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-6">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-16 items-center">
-          {/* Left — form */}
           <div className="max-w-sm">
             <Link
               href="/"
@@ -61,8 +84,15 @@ export default function LoginPage() {
                 />
               </div>
 
-              <Button variant="primary" className="w-full">
-                Log in
+              {/* Error message */}
+              {error && <p className="text-sm text-red-500">{error}</p>}
+
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={handleLogin}
+              >
+                {loading ? "Logging in..." : "Log in"}
               </Button>
 
               <p className="text-sm text-muted text-center">
@@ -74,12 +104,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Right — coral panel */}
           <div className="hidden lg:flex flex-col gap-4 bg-coral-light rounded-xl px-8 py-10">
             <p className="text-xs text-coral-dark uppercase tracking-widest">
               Active right now
             </p>
-
             <div className="flex flex-col gap-3">
               {ACTIVE_USERS.map((user) => (
                 <Card key={user.name} className="flex items-center gap-3">
@@ -95,16 +123,6 @@ export default function LoginPage() {
                 </Card>
               ))}
             </div>
-
-            <blockquote className="border-l-2 border-coral pl-4 mt-2">
-              <p className="text-sm text-coral-dark leading-relaxed">
-                "I learned Python in 3 weeks by teaching someone Spanish. Best
-                decision ever."
-              </p>
-              <p className="text-xs text-coral-dark opacity-70 mt-2">
-                — Anika P.
-              </p>
-            </blockquote>
           </div>
         </section>
       </div>

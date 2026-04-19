@@ -5,7 +5,9 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
 import { ACTIVE_USERS } from "@/lib/constants";
+import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const whyPoints = [
@@ -15,10 +17,34 @@ const whyPoints = [
 ];
 
 export default function SignupPage() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const router = useRouter();
+
+  const handleSignup = async () => {
+    setLoading(true);
+    setError("");
+
+    const supabase = createClient();
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: fullName },
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+    router.push("/dashboard");
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -80,9 +106,14 @@ export default function SignupPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
+              {error && <p className="text-sm text-red-500">{error}</p>}
 
-              <Button variant="primary" className="w-full">
-                Create account
+              <Button
+                variant="primary"
+                className="w-full"
+                onClick={handleSignup}
+              >
+                {loading ? "Creating an account" : "Create account"}
               </Button>
 
               <p className="text-sm text-muted text-center">

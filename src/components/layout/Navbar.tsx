@@ -1,30 +1,52 @@
-import Button from "@/components/ui/Button";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import ThemeToggle from "../ui/ThemeToggle";
+import Button from "@/components/ui/Button";
+import Avatar from "@/components/ui/Avatar";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import LogoutButton from "../ui/LogoutButton";
+import { getOptionalUser, requireUser } from "@/lib/auth";
 
-export default function Navbar() {
-  const session = null; // Placeholder for authentication state
+export default async function Navbar() {
+  const { user } = await getOptionalUser();
+
+  const fullName = user?.user_metadata?.full_name ?? "";
+
+  const initials = fullName
+    ? fullName
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+    : "?";
+
   return (
     <nav className="w-full flex items-center justify-between px-6 py-4 border-b border-border bg-background">
       <Link href="/" className="text-lg font-medium text-foreground">
         SkillSwap
       </Link>
-      <div className="flex items-center justify-between">
+
+      <div className="flex items-center gap-3">
         <ThemeToggle />
-        {session ? (
-          <div className="flex items-center gap-3">
-            <Button variant="outline">User</Button>
-            <Button variant="primary">Logout</Button>
-          </div>
+
+        {user ? (
+          // Logged in state
+          <>
+            <span className="text-sm text-muted hidden sm:block">
+              {fullName}
+            </span>
+            <Avatar initials={initials} color="coral" />
+            <LogoutButton />
+          </>
         ) : (
-          <div className="flex items-center gap-3">
+          // Logged out state
+          <>
             <Link href="/login">
               <Button variant="outline">Log in</Button>
             </Link>
             <Link href="/signup">
               <Button variant="primary">Get started</Button>
             </Link>
-          </div>
+          </>
         )}
       </div>
     </nav>

@@ -1,0 +1,113 @@
+"use client";
+
+import Button from "@/components/ui/Button";
+import Input from "@/components/ui/Input";
+import TagInput from "@/components/ui/TagInput";
+import { createClient } from "@/lib/supabase/client";
+import { Profile } from "@/types/user";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+type EditProfileFormProps = {
+  profile: Profile | null;
+  userId: string;
+};
+
+export default function EditProfileForm({
+  profile,
+  userId,
+}: EditProfileFormProps) {
+  const [fullName, setFullName] = useState(profile?.full_name ?? "");
+  const [skillsOffered, setSkillsOffered] = useState(
+    profile?.skills_offered ?? [],
+  );
+  const [skillsWanted, setSkillsWanted] = useState(
+    profile?.skills_wanted ?? [],
+  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSave = async () => {
+    setLoading(true);
+    setError("");
+
+    if (!fullName.trim()) {
+      setError("Full name is required.");
+      setLoading(false);
+      return;
+    }
+
+    const supabase = createClient();
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        full_name: fullName.trim(),
+        skills_offered: skillsOffered,
+        skills_wanted: skillsWanted,
+      })
+      .eq("id", userId);
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+      return;
+    }
+
+    router.push("/dashboard");
+    router.refresh();
+  };
+
+  return (
+    <div className="bg-background border border-border rounded-lg p-6 flex flex-col gap-6">
+      {/* Full name */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-sm text-muted">Full name</label>
+        <Input
+          type="text"
+          placeholder="Your full name"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+        />
+      </div>
+
+      {/* Skills offered */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-sm text-muted">Skills you offer</label>
+        <TagInput
+          tags={skillsOffered}
+          onChange={setSkillsOffered}
+          color="coral"
+          placeholder="e.g. Guitar, Cooking..."
+        />
+        <p className="text-xs text-muted">Press Enter to add each skill</p>
+      </div>
+
+      {/* Skills wanted */}
+      <div className="flex flex-col gap-1.5">
+        <label className="text-sm text-muted">Skills you want to learn</label>
+        <TagInput
+          tags={skillsWanted}
+          onChange={setSkillsWanted}
+          color="teal"
+          placeholder="e.g. Python, Design..."
+        />
+        <p className="text-xs text-muted">Press Enter to add each skill</p>
+      </div>
+
+      {/* Error */}
+      {error && <p className="text-sm text-red-500">{error}</p>}
+
+      {/* Actions */}
+      <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">
+        <Link href="/dashboard">
+          <Button variant="outline">Cancel</Button>
+        </Link>
+        <Button variant="primary" onClick={handleSave}>
+          {loading ? "Saving..." : "Save changes"}
+        </Button>
+      </div>
+    </div>
+  );
+}
