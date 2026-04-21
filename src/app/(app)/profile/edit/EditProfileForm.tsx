@@ -38,14 +38,18 @@ export default function EditProfileForm({
       setLoading(false);
       return;
     }
+    if (skillsOffered.length === 0 || skillsWanted.length === 0) {
+      setError("Add at least one skill to offer and one to learn.");
+      return;
+    }
 
     const supabase = createClient();
     const { error } = await supabase
       .from("profiles")
       .update({
         full_name: fullName.trim(),
-        skills_offered: skillsOffered,
-        skills_wanted: skillsWanted,
+        skills_offered: skillsOffered.map((s) => s.trim().toLowerCase()),
+        skills_wanted: skillsWanted.map((s) => s.trim().toLowerCase()),
       })
       .eq("id", userId);
 
@@ -104,7 +108,7 @@ export default function EditProfileForm({
         <Link href="/dashboard">
           <Button variant="outline">Cancel</Button>
         </Link>
-        <Button variant="primary" onClick={handleSave}>
+        <Button variant="primary" onClick={handleSave} disabled={loading}>
           {loading ? "Saving..." : "Save changes"}
         </Button>
       </div>

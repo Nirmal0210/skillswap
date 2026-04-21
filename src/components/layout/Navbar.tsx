@@ -30,13 +30,13 @@ export default async function Navbar() {
 
         {user ? (
           // Logged in state
-          <>
+          <Link href="/profile" className="hidden sm:flex items-center gap-2">
             <span className="text-sm text-muted hidden sm:block">
               {fullName}
             </span>
             <Avatar initials={initials} color="coral" />
             <LogoutButton />
-          </>
+          </Link>
         ) : (
           // Logged out state
           <>

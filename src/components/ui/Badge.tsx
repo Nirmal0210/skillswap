@@ -13,7 +13,7 @@ export default function Badge({
 
   const variants = {
     warning: "bg-coral-light text-coral-dark",
-    success: "bg-surface text-muted",
+    success: "bg-teal-light text-teal-dark",
     info: "bg-surface text-foreground border border-border",
   };
 
