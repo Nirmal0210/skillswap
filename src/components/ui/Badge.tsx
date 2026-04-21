@@ -1,5 +1,7 @@
+import { BadgeVariant } from "@/types/user";
+
 type BadgeProps = {
-  variant?: "warning" | "success" | "info";
+  variant?: BadgeVariant;
   children: React.ReactNode;
   className?: string;
 };

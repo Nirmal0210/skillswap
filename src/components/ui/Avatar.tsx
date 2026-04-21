@@ -1,6 +1,8 @@
+import { AvatarColor } from "@/types/user";
+
 type AvatarProps = {
   initials: string;
-  color?: "coral" | "teal" | "purple" | "amber";
+  color?: AvatarColor;
 };
 
 export default function Avatar({ initials, color = "coral" }: AvatarProps) {
