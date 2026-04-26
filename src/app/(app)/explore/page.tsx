@@ -1,12 +1,13 @@
 import { requireUser } from "@/lib/auth";
 import { ExploreProfileCard } from "@/components/features/explore/ExploreProfileCard";
+import { Profile } from "@/types/user";
 
 export default async function ExplorePage() {
   const { user, supabase } = await requireUser();
 
   const { data: currentUserProfile } = await supabase
     .from("profiles")
-    .select("full_name")
+    .select("*")
     .eq("id", user.id)
     .single();
 
@@ -32,7 +33,11 @@ export default async function ExplorePage() {
         <div className="flex flex-col gap-4">
           {otherUsers?.length ? (
             otherUsers.map((profile) => (
-              <ExploreProfileCard key={profile.id} profile={profile} />
+              <ExploreProfileCard
+                key={profile.id}
+                profile={profile}
+                currentUserProfile={currentUserProfile as Profile}
+              />
             ))
           ) : (
             <div className="text-center py-16">

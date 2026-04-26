@@ -8,7 +8,7 @@ type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: () => void;
-  isSubmitButtonDisabled?: boolean;
+  disabled?: boolean;
   title: string;
   children: React.ReactNode;
 };
@@ -17,7 +17,7 @@ export default function Modal({
   isOpen,
   onClose,
   onSubmit,
-  isSubmitButtonDisabled = false,
+  disabled = false,
   title,
   children,
 }: ModalProps) {
@@ -32,7 +32,7 @@ export default function Modal({
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>
-          <Button onClick={onSubmit} disabled={isSubmitButtonDisabled}>
+          <Button onClick={onSubmit} disabled={disabled}>
             Send Request
           </Button>
         </div>

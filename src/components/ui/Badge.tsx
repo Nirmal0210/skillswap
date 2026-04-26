@@ -17,6 +17,7 @@ export default function Badge({
     warning: "bg-coral-light text-coral-dark",
     success: "bg-teal-light text-teal-dark",
     info: "bg-surface text-foreground border border-border",
+    secondary: "bg-surface text-muted border border-border",
   };
 
   return (

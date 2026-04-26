@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import Avatar from "@/components/ui/Avatar";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
