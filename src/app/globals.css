@@ -3,77 +3,78 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Arial", "Helvetica", sans-serif;
-  --font-mono: "Courier New", monospace;
+  --font-sans:
+    "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-  --color-background:    #ffffff;
-  --color-foreground:    #171717;
+  --color-background: #ffffff;
+  --color-foreground: #171717;
 
-  --color-coral:         #C85A30;
-  --color-coral-light:   #FAECE7;
-  --color-coral-dark:    #993C1D;
+  --color-coral: #c85a30;
+  --color-coral-light: #faece7;
+  --color-coral-dark: #993c1d;
 
-  --color-teal-light:    #E1F5EE;
-  --color-teal-dark:     #0F6E56;
+  --color-teal-light: #e1f5ee;
+  --color-teal-dark: #0f6e56;
 
-  --color-purple-light:  #EEEDFE;
-  --color-purple-dark:   #534AB7;
+  --color-purple-light: #eeedfe;
+  --color-purple-dark: #534ab7;
 
-  --color-amber-light:   #FAEEDA;
-  --color-amber-dark:    #854F0B;
+  --color-amber-light: #faeeda;
+  --color-amber-dark: #854f0b;
 
-  --color-muted:         #6b7280;
-  --color-border:        #e5e7eb;
-  --color-surface:       #f9fafb;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-surface: #f9fafb;
 }
 
 @theme inline {
-  --color-background:    var(--background);
-  --color-foreground:    var(--foreground);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 }
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 
-  --color-coral:         #C85A30;
-  --color-coral-light:   #FAECE7;
-  --color-coral-dark:    #993C1D;
+  --color-coral: #c85a30;
+  --color-coral-light: #faece7;
+  --color-coral-dark: #993c1d;
 
-  --color-teal-light:    #E1F5EE;
-  --color-teal-dark:     #0F6E56;
+  --color-teal-light: #e1f5ee;
+  --color-teal-dark: #0f6e56;
 
-  --color-purple-light:  #EEEDFE;
-  --color-purple-dark:   #534AB7;
+  --color-purple-light: #eeedfe;
+  --color-purple-dark: #534ab7;
 
-  --color-amber-light:   #FAEEDA;
-  --color-amber-dark:    #854F0B;
+  --color-amber-light: #faeeda;
+  --color-amber-dark: #854f0b;
 
-  --color-muted:         #6b7280;
-  --color-border:        #e5e7eb;
-  --color-surface:       #f9fafb;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-surface: #f9fafb;
 }
 
 .dark {
-  --background:          #0f0f0f;
-  --foreground:          #ededed;
+  --background: #0f0f0f;
+  --foreground: #ededed;
 
-  --color-coral:         #e8714a;
-  --color-coral-light:   #2a1510;
-  --color-coral-dark:    #f0957a;
+  --color-coral: #e8714a;
+  --color-coral-light: #2a1510;
+  --color-coral-dark: #f0957a;
 
-  --color-teal-light:    #0a2a1f;
-  --color-teal-dark:     #5dcaa5;
+  --color-teal-light: #0a2a1f;
+  --color-teal-dark: #5dcaa5;
 
-  --color-purple-light:  #1a1830;
-  --color-purple-dark:   #afa9ec;
+  --color-purple-light: #1a1830;
+  --color-purple-dark: #afa9ec;
 
-  --color-amber-light:   #2a1f08;
-  --color-amber-dark:    #fac775;
+  --color-amber-light: #2a1f08;
+  --color-amber-dark: #fac775;
 
-  --color-muted:         #9ca3af;
-  --color-border:        #2a2a2a;
-  --color-surface:       #1a1a1a;
+  --color-muted: #9ca3af;
+  --color-border: #2a2a2a;
+  --color-surface: #1a1a1a;
 }
 
 body {

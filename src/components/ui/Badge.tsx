@@ -13,11 +13,14 @@ export default function Badge({
 }: BadgeProps) {
   const base = "inline-block text-xs font-medium px-3 py-1 rounded-md";
 
-  const variants = {
+  const variants: Record<BadgeVariant, string> = {
     warning: "bg-coral-light text-coral-dark",
     success: "bg-teal-light text-teal-dark",
     info: "bg-surface text-foreground border border-border",
     secondary: "bg-surface text-muted border border-border",
+    default: "bg-surface text-foreground border border-border",
+    destructive: "bg-destructive text-destructive-foreground border border-border",
+    outline: "bg-transparent text-foreground border border-border",
   };
 
   return (

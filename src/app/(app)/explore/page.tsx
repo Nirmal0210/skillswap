@@ -16,6 +16,14 @@ export default async function ExplorePage() {
     .select("*")
     .neq("id", user.id);
 
+  const { data: alreadySwappedWith } = await supabase
+    .from("swap_requests")
+    .select("receiver_id")
+    .eq("sender_id", user.id);
+
+  const alreadySwappedWithIds =
+    alreadySwappedWith?.map((req) => req.receiver_id) || [];
+
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-6 py-12">
@@ -35,8 +43,9 @@ export default async function ExplorePage() {
             otherUsers.map((profile) => (
               <ExploreProfileCard
                 key={profile.id}
-                profile={profile}
+                profile={profile as Profile}
                 currentUserProfile={currentUserProfile as Profile}
+                isSwappedWith={alreadySwappedWithIds.includes(profile.id)}
               />
             ))
           ) : (

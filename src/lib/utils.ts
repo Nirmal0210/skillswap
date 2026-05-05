@@ -56,3 +56,13 @@ export const MATCH_UI: Record<MatchResult, { variant: string; label: string }> =
       label: "No Skills",
     },
   };
+
+export function initials(name?: string) {
+  if (!name) return "?";
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}

@@ -43,7 +43,7 @@ export default async function proxy(request: NextRequest) {
   if (
     user &&
     (request.nextUrl.pathname === "/login" ||
-      request.nextUrl.pathname === "/login" ||
+      request.nextUrl.pathname === "/signup" ||
       request.nextUrl.pathname === "/")
   ) {
     console.log("User is already logged in, redirecting to dashboard");

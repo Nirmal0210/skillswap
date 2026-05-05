@@ -1,10 +1,10 @@
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Avatar from "@/components/ui/Avatar";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import LogoutButton from "../ui/LogoutButton";
-import { getOptionalUser, requireUser } from "@/lib/auth";
+import { getOptionalUser } from "@/lib/auth";
+import NavLinks from "../ui/NavLinks";
 
 export default async function Navbar() {
   const { user } = await getOptionalUser();
@@ -24,7 +24,7 @@ export default async function Navbar() {
       <Link href="/" className="text-lg font-medium text-foreground">
         SkillSwap
       </Link>
-
+      {user && <NavLinks />}
       <div className="flex items-center gap-3">
         <ThemeToggle />
 

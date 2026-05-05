@@ -1,6 +1,6 @@
 export type AvatarColor = "coral" | "teal" | "purple" | "amber";
 
-export type BadgeVariant = "warning" | "success" | "info" | "secondary";
+export type BadgeVariant = "warning" | "success" | "info" | "secondary" | "default" | "destructive" | "outline";
 export type SwapUser = {
   name: string;
   skill: string;

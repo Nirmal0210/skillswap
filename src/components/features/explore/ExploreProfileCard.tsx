@@ -9,60 +9,72 @@ import Card from "@/components/ui/Card";
 
 import { BadgeVariant, Profile } from "@/types/user";
 import { SwapRequestModal } from "../swaps/SwapRequestModal";
-import checkMatch, { MATCH_UI } from "@/lib/utils";
+import checkMatch, { initials, MATCH_UI } from "@/lib/utils";
 import { MATCH_RESULTS } from "@/lib/constants";
-import Section from "@/components/ui/Section";
 import BadgeGroup from "@/components/ui/BadgeGroup";
 import EmptyText from "@/components/ui/EmptyText";
 
 type ExploreProfileCardProps = {
   profile: Profile;
   currentUserProfile: Profile;
+  isSwappedWith: boolean;
 };
 
 export function ExploreProfileCard({
   profile,
   currentUserProfile,
+  isSwappedWith,
 }: ExploreProfileCardProps) {
   const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
 
   const matchResult = checkMatch(currentUserProfile, profile);
   const match = MATCH_UI[matchResult];
 
-  const initials: string =
-    profile.full_name
-      ?.split(" ")
-      .map((n) => n[0])
-      .join("") ?? "?";
-
   const isDisabled =
     matchResult === MATCH_RESULTS.NO_MATCH ||
-    matchResult === MATCH_RESULTS.NO_SKILLS;
+    matchResult === MATCH_RESULTS.NO_SKILLS ||
+    isSwappedWith;
 
   return (
     <>
       <Card
-        className={`flex items-center gap-4 p-3 transition-shadow duration-200 hover:shadow-md ${
-          isDisabled ? "opacity-80" : ""
+        className={`overflow-hidden transition-shadow duration-200 hover:shadow-md ${
+          isDisabled ? "opacity-60" : ""
         }`}
       >
-        {/* LEFT — Avatar + name + skills */}
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          <Avatar initials={initials} color="coral" />
+        {/* Teal accent bar */}
+        <div className="h-0.5 w-full bg-teal-dark" />
 
-          <div className="flex flex-col gap-1 min-w-0">
-            <p className="text-sm font-semibold text-foreground truncate">
-              {profile.full_name ?? "Unknown user"}
-            </p>
+        <div className="flex items-center gap-4 p-4">
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <Avatar>
+              <Avatar.Fallback color="teal">
+                {initials(profile.full_name ?? "Unknown user")}
+              </Avatar.Fallback>
+            </Avatar>
+          </div>
 
-            {/* Inline skills row */}
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {/* Name + skills */}
+          <div className="flex flex-col gap-2 flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-foreground truncate">
+                {profile.full_name ?? "Unknown user"}
+              </p>
+              <Badge variant={match.variant as BadgeVariant}>
+                {match.label}
+              </Badge>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-foreground/50">Offers</span>
+                <span className="text-xs font-medium text-teal-dark">
+                  Offers
+                </span>
                 {profile.skills_offered?.length ? (
                   <BadgeGroup
                     skills={profile.skills_offered}
-                    variant="warning"
+                    variant="success"
                   />
                 ) : (
                   <EmptyText text="—" />
@@ -70,11 +82,11 @@ export function ExploreProfileCard({
               </div>
 
               <div className="flex items-center gap-1.5">
-                <span className="text-xs text-foreground/50">Wants</span>
+                <span className="text-xs font-medium text-coral">Wants</span>
                 {profile.skills_wanted?.length ? (
                   <BadgeGroup
                     skills={profile.skills_wanted}
-                    variant="success"
+                    variant="warning"
                   />
                 ) : (
                   <EmptyText text="—" />
@@ -82,20 +94,27 @@ export function ExploreProfileCard({
               </div>
             </div>
           </div>
-        </div>
 
-        {/* RIGHT — Match badge + action */}
-        <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
-          <Badge variant={match.variant as BadgeVariant}>{match.label}</Badge>
-          <Button
-            variant="primary"
-            className="text-sm"
-            onClick={() => setIsSwapModalOpen(true)}
-            disabled={isDisabled}
-          >
-            Request Swap
-          </Button>
+          {/* Action */}
+          <div className="flex-shrink-0 ml-auto">
+            <Button
+              variant="primary"
+              className="text-sm flex items-center gap-1"
+              onClick={() => setIsSwapModalOpen(true)}
+              disabled={isDisabled}
+            >
+              <span className="material-symbols-outlined text-sm">
+                swap_horiz
+              </span>
+              Swap
+            </Button>
+          </div>
         </div>
+        {isSwappedWith && (
+          <Badge variant="destructive" className="float-right">
+            Already swapped
+          </Badge>
+        )}
       </Card>
 
       {isSwapModalOpen && (

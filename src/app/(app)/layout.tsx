@@ -10,6 +10,7 @@ export default function AppLayout({
 }>) {
   return (
     <div className="min-h-full flex flex-col">
+      <Navbar />
       <main className="flex-grow">
         <AlertProvider>
           {children}
