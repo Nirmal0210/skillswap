@@ -37,7 +37,14 @@ export default async function MySwapsPage() {
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-bold mb-6">My Swaps</h1>
+        <div className="mb-8 animate-fadeInUp">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-dark to-coral bg-clip-text text-transparent mb-2">
+            My Swaps
+          </h1>
+          <p className="text-sm text-muted">
+            Manage your incoming and outgoing swap requests.
+          </p>
+        </div>
         <SwapTabs
           incoming={incomingRes.data || []}
           outgoing={outgoingRes.data || []}

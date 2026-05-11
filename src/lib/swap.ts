@@ -6,11 +6,26 @@ import { revalidatePath } from "next/cache";
 
 export async function acceptSwap(swapId: string) {
   const { user, supabase } = await requireUser();
-  await supabase
+
+  const { data: currentSwap, error } = await supabase
     .from("swap_requests")
     .update({ status: "accepted" })
     .eq("id", swapId)
-    .eq("receiver_id", user.id);
+    .eq("receiver_id", user.id)
+    .select("sender_id, receiver_id")
+    .single();
+
+  if (error || !currentSwap) {
+    console.error("Error accepting swap:", error);
+    return;
+  }
+
+  await supabase.from("active_swaps").insert({
+    swap_id: swapId,
+    user1_id: currentSwap.sender_id,
+    user2_id: currentSwap.receiver_id,
+  });
+
   revalidatePath("/swaps");
 }
 

@@ -24,11 +24,18 @@ export default function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center bg-blur-sm backdrop-blur-xs">
-      <Card className="bg-white rounded-lg p-6 w-96">
-        <h2 className="text-lg font-bold mb-4">{title}</h2>
-        {children}
-        <div className="flex justify-between align-center gap-2 mt-3">
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center backdrop-blur-sm z-50 animate-fadeIn">
+      <Card 
+        className="bg-background rounded-xl p-6 w-96 shadow-2xl border border-border/50 animate-scaleIn"
+        animated={false}
+      >
+        <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-teal-dark to-coral bg-clip-text text-transparent">
+          {title}
+        </h2>
+        <div className="mb-6">
+          {children}
+        </div>
+        <div className="flex justify-between gap-2 pt-4 border-t border-border">
           <Button variant="outline" onClick={onClose}>
             Close
           </Button>

@@ -14,11 +14,11 @@ export default function Button({
   disabled = false,
 }: ButtonProps) {
   const base =
-    "px-6 py-3 rounded-md text-sm font-medium cursor-pointer transition-opacity hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-coral disabled:opacity-50 disabled:cursor-not-allowed dark:focus:ring-coral-contrast dark:disabled:opacity-40 dark:disabled:hover:opacity-40 dark:disabled:hover:cursor-not-allowed";
+    "px-6 py-3 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 ease-out focus:outline-none focus:ring-2 focus:ring-coral focus:ring-offset-2 dark:focus:ring-offset-0 disabled:opacity-50 disabled:cursor-not-allowed dark:disabled:opacity-40 dark:disabled:hover:opacity-40 dark:disabled:hover:cursor-not-allowed active:scale-95";
 
   const variants = {
-    primary: "bg-coral text-white border-none",
-    outline: "bg-transparent text-foreground border border-border",
+    primary: "bg-coral text-white border-none hover:bg-coral-dark hover:shadow-lg hover:shadow-coral/20 hover:scale-105",
+    outline: "bg-transparent text-foreground border border-border hover:border-coral hover:bg-coral-light/10 hover:shadow-md",
   };
 
   return (

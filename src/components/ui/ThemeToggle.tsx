@@ -4,8 +4,10 @@ import React, { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark") {
       setIsDark(true);
@@ -25,13 +27,19 @@ export default function ThemeToggle() {
     setIsDark(!isDark);
   };
 
+  if (!mounted) return null;
+
   return (
     <button
       onClick={toggleTheme}
-      className="w-auto h-12 px-3 me-3 rounded-md border border-border flex items-center justify-center text-muted hover:text-foreground hover:bg-surface transition-colors"
+      className="p-2 rounded-lg border border-border flex items-center justify-center text-muted hover:text-foreground hover:bg-surface transition-all duration-300 hover:scale-110 active:scale-95 hover:shadow-md"
       aria-label="Toggle dark mode"
     >
-      {isDark ? "☀️" : "🌙"}
+      <span className="text-xl transition-transform duration-300 inline-block" style={{
+        transform: isDark ? 'rotate(180deg) scale(1)' : 'rotate(0deg) scale(1)'
+      }}>
+        {isDark ? "☀️" : "🌙"}
+      </span>
     </button>
   );
 }

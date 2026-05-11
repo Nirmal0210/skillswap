@@ -38,16 +38,16 @@ export function ExploreProfileCard({
   return (
     <>
       <Card
-        className={`overflow-hidden transition-shadow duration-200 hover:shadow-md ${
-          isDisabled ? "opacity-60" : ""
+        className={`group overflow-hidden animate-scaleIn ${
+          isDisabled ? "opacity-60 cursor-not-allowed" : ""
         }`}
       >
-        {/* Teal accent bar */}
-        <div className="h-0.5 w-full bg-teal-dark" />
+        {/* Gradient accent bar - animated */}
+        <div className="h-1 w-full bg-gradient-to-r from-teal-dark via-purple-dark to-teal-dark group-hover:animate-shimmer" />
 
         <div className="flex items-center gap-4 p-4">
-          {/* Avatar */}
-          <div className="flex-shrink-0">
+          {/* Avatar - with hover animation */}
+          <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
             <Avatar>
               <Avatar.Fallback color="teal">
                 {initials(profile.full_name ?? "Unknown user")}
@@ -58,17 +58,17 @@ export function ExploreProfileCard({
           {/* Name + skills */}
           <div className="flex flex-col gap-2 flex-1 min-w-0">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-foreground truncate">
+              <p className="text-sm font-semibold text-foreground truncate group-hover:text-teal-dark transition-colors duration-300">
                 {profile.full_name ?? "Unknown user"}
               </p>
-              <Badge variant={match.variant as BadgeVariant}>
+              <Badge variant={match.variant as BadgeVariant} className="animate-fadeIn">
                 {match.label}
               </Badge>
             </div>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-medium text-teal-dark">
+                <span className="text-xs font-medium text-teal-dark group-hover:text-teal-dark/80 transition-colors">
                   Offers
                 </span>
                 {profile.skills_offered?.length ? (
@@ -82,7 +82,7 @@ export function ExploreProfileCard({
               </div>
 
               <div className="flex items-center gap-1.5">
-                <span className="text-xs font-medium text-coral">Wants</span>
+                <span className="text-xs font-medium text-coral group-hover:text-coral/80 transition-colors">Wants</span>
                 {profile.skills_wanted?.length ? (
                   <BadgeGroup
                     skills={profile.skills_wanted}
@@ -96,10 +96,10 @@ export function ExploreProfileCard({
           </div>
 
           {/* Action */}
-          <div className="flex-shrink-0 ml-auto">
+          <div className="flex-shrink-0 ml-auto transform transition-transform duration-300 group-hover:scale-105">
             <Button
               variant="primary"
-              className="text-sm flex items-center gap-1"
+              className="text-sm flex items-center gap-1 whitespace-nowrap"
               onClick={() => setIsSwapModalOpen(true)}
               disabled={isDisabled}
             >
@@ -111,9 +111,11 @@ export function ExploreProfileCard({
           </div>
         </div>
         {isSwappedWith && (
-          <Badge variant="destructive" className="float-right">
-            Already swapped
-          </Badge>
+          <div className="px-4 pb-3">
+            <Badge variant="destructive" className="animate-fadeIn">
+              Already swapped
+            </Badge>
+          </div>
         )}
       </Card>
 

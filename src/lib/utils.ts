@@ -4,6 +4,7 @@ import { MATCH_RESULTS, MatchResult } from "./constants";
 function hasOverlap(arr1?: string[] | null, arr2?: string[] | null) {
   return arr1?.some((item) => arr2?.includes(item)) ?? false;
 }
+
 export default function checkMatch(
   currentUserProfile: Profile,
   profile: Profile,

@@ -9,6 +9,7 @@ export default function NavLinks() {
     { href: "/dashboard", label: "Dashboard" },
     { href: "/explore", label: "Explore" },
     { href: "/my-swaps", label: "My Swaps" },
+    { href: "/active-swaps", label: "Active Swaps" },
     { href: "/about", label: "About" },
   ];
 

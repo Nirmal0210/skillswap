@@ -69,9 +69,9 @@ export default function Home() {
         {/* Hero — two columns on large screens */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-16 items-start">
           {/* Left — headline + CTA */}
-          <div>
-            <Badge className="mb-4">Free to join — no money needed</Badge>
-            <h1 className="text-4xl font-medium leading-tight mt-3 mb-4 text-foreground">
+          <div className="animate-fadeInUp">
+            <Badge className="mb-4 animate-slideInLeft">✨ Free to join — no money needed</Badge>
+            <h1 className="text-5xl font-bold leading-tight mt-3 mb-4 bg-gradient-to-r from-teal-dark via-purple-dark to-coral bg-clip-text text-transparent">
               Trade what you know.
               <br />
               Learn what you don't.
@@ -80,15 +80,20 @@ export default function Home() {
               Connect with people who have the skills you want — and share yours
               in return. No money, just people helping people grow.
             </p>
-            <div className="flex items-center gap-3 mb-6">
-              <Button variant="primary">Start Swapping</Button>
-              <Button variant="outline">See How It Works</Button>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+              <Button variant="primary" className="transition-transform duration-300 hover:scale-105">
+                Start Swapping
+              </Button>
+              <Button variant="outline" className="transition-transform duration-300 hover:scale-105">
+                See How It Works
+              </Button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 stagger">
               {skillTags.map((tag, i) => (
                 <span
                   key={i}
-                  className="border border-border text-muted text-sm px-4 py-1.5 rounded-full"
+                  className="border border-border text-muted text-sm px-4 py-1.5 rounded-full transition-all duration-300 hover:border-coral hover:text-foreground hover:bg-coral-light/10 hover:shadow-md animate-scaleIn"
+                  style={{ animationDelay: `${i * 0.05}s` }}
                 >
                   {tag}
                 </span>
@@ -97,15 +102,25 @@ export default function Home() {
           </div>
 
           {/* Right — swapper cards */}
-          <div className="flex flex-col gap-3">
-            <p className="text-xs text-muted uppercase tracking-widest mb-1">
-              Recent swappers
+          <div className="flex flex-col gap-3 stagger">
+            <p className="text-xs text-muted uppercase tracking-widest mb-1 font-bold">
+              📊 Recent swappers
             </p>
             {swappers.map((s, i) => (
-              <Card key={i} className="flex items-center gap-3">
-                <Avatar initials={s.initials} color={s.color} />
-                <div>
-                  <p className="text-sm font-medium text-foreground">
+              <Card 
+                key={i} 
+                className="flex items-center gap-3 p-4 hover:bg-surface/50 group transition-all duration-300 animate-scaleIn"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <div className="transition-transform duration-300 group-hover:scale-110">
+                  <Avatar>
+                    <Avatar.Fallback color={s.color}>
+                      {s.initials}
+                    </Avatar.Fallback>
+                  </Avatar>
+                </div>
+                <div className="flex-1 transition-transform duration-300 group-hover:translate-x-1">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-teal-dark transition-colors">
                     {s.name}
                   </p>
                   <p className="text-xs text-muted mt-0.5">{s.meta}</p>
@@ -115,38 +130,48 @@ export default function Home() {
           </div>
         </section>
 
-        <hr className="border-border" />
+        <hr className="border-border/50" />
 
         {/* Stats */}
-        <section className="grid grid-cols-3 gap-4 py-10">
+        <section className="grid grid-cols-3 gap-4 py-10 stagger">
           {stats.map((stat, i) => (
-            <div key={i} className="text-center">
-              <p className="text-2xl font-medium text-foreground">{stat.num}</p>
-              <p className="text-sm text-muted mt-1">{stat.label}</p>
+            <div 
+              key={i} 
+              className="text-center p-4 rounded-lg hover:bg-surface transition-all duration-300 hover:shadow-md animate-scaleIn"
+              style={{ animationDelay: `${i * 0.1}s` }}
+            >
+              <p className="text-3xl font-bold bg-gradient-to-r from-coral to-teal-dark bg-clip-text text-transparent">
+                {stat.num}
+              </p>
+              <p className="text-sm text-muted mt-2 font-medium">{stat.label}</p>
             </div>
           ))}
         </section>
 
-        <hr className="border-border" />
+        <hr className="border-border/50" />
 
         {/* How it works + CTA — two columns on large screens */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-16 items-start">
           {/* Left — steps */}
-          <div>
-            <p className="text-xs text-muted uppercase tracking-widest mb-6">
+          <div className="animate-fadeInUp">
+            <p className="text-xs text-muted uppercase tracking-widest mb-6 font-bold flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-coral"></span>
               How it works
             </p>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 stagger">
               {steps.map((step) => (
-                <div key={step.num} className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-full bg-coral-light text-coral-dark flex items-center justify-center text-sm font-medium shrink-0">
+                <div 
+                  key={step.num} 
+                  className="flex items-start gap-4 group animate-slideInLeft"
+                >
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-coral-light to-coral-light/70 text-coral-dark flex items-center justify-center text-sm font-bold shrink-0 transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg shadow-sm">
                     {step.num}
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
+                  <div className="flex-1 transition-transform duration-300 group-hover:translate-x-1">
+                    <p className="text-sm font-semibold text-foreground group-hover:text-coral transition-colors">
                       {step.title}
                     </p>
-                    <p className="text-sm text-muted mt-1">{step.desc}</p>
+                    <p className="text-sm text-muted mt-1 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -154,15 +179,17 @@ export default function Home() {
           </div>
 
           {/* Right — CTA box */}
-          <div className="bg-surface rounded-lg px-8 py-10 text-center">
-            <h2 className="text-2xl font-medium text-foreground mb-2">
+          <Card className="p-8 text-center bg-gradient-to-br from-teal-light/10 to-coral-light/10 border border-coral/20 animate-scaleIn">
+            <h2 className="text-2xl font-bold text-foreground mb-3">
               Ready to swap?
             </h2>
-            <p className="text-sm text-muted mb-6">
+            <p className="text-sm text-muted mb-6 leading-relaxed">
               Join thousands of people trading skills every day.
             </p>
-            <Button variant="primary">Create your free profile</Button>
-          </div>
+            <Button variant="primary" className="transition-transform duration-300 hover:scale-105">
+              Create your free profile
+            </Button>
+          </Card>
         </section>
       </div>
     </main>
