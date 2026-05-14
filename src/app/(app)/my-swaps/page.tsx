@@ -17,11 +17,6 @@ export default async function MySwapsPage() {
   ]);
 
   if (incomingRes.error || outgoingRes.error) {
-    console.error(
-      "Error fetching swaps:",
-      incomingRes.error,
-      outgoingRes.error,
-    );
     return (
       <main className="min-h-screen bg-background">
         <div className="max-w-3xl mx-auto px-6 py-12">

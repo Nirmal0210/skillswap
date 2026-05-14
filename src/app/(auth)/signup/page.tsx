@@ -4,7 +4,8 @@ import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
-import { ACTIVE_USERS } from "@/lib/constants";
+import { useAlert } from "@/context/AlertContext";
+import { ACTIVE_USERS, ALERT_TYPES } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,16 +19,33 @@ const whyPoints = [
 
 export default function SignupPage() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
+  const { setAlert } = useAlert();
 
   const handleSignup = async () => {
     setLoading(true);
-    setError("");
+
+    if (!fullName.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
+      setAlert(ALERT_TYPES.ERROR, "All fields are required.");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setAlert(ALERT_TYPES.ERROR, "Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setAlert(ALERT_TYPES.ERROR, "Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
 
     const supabase = createClient();
     const { error } = await supabase.auth.signUp({
@@ -39,10 +57,11 @@ export default function SignupPage() {
     });
 
     if (error) {
-      setError(error.message);
+      setAlert(ALERT_TYPES.ERROR, error.message);
       setLoading(false);
       return;
     }
+    setAlert(ALERT_TYPES.SUCCESS, "Account created successfully! Redirecting to dashboard...");
     router.push("/dashboard");
   };
 
@@ -106,11 +125,6 @@ export default function SignupPage() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-              {error && (
-                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 animate-slideInLeft">
-                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-                </div>
-              )}
 
               <Button
                 variant="primary"

@@ -4,7 +4,8 @@ import Avatar from "@/components/ui/Avatar";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Input from "@/components/ui/Input";
-import { ACTIVE_USERS } from "@/lib/constants";
+import { useAlert } from "@/context/AlertContext";
+import { ACTIVE_USERS, ALERT_TYPES } from "@/lib/constants";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,13 +14,12 @@ import { useState } from "react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { setAlert } = useAlert();
 
   const handleLogin = async () => {
     setLoading(true);
-    setError("");
 
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({
@@ -28,11 +28,12 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError(error.message);
+      setAlert(ALERT_TYPES.ERROR, error.message);
       setLoading(false);
       return;
     }
 
+    setAlert(ALERT_TYPES.SUCCESS, "Logged in successfully!");
     router.push("/dashboard");
   };
 
@@ -83,13 +84,6 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-
-              {/* Error message */}
-              {error && (
-                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 animate-slideInLeft">
-                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-                </div>
-              )}
 
               <Button
                 variant="primary"

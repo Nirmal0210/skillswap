@@ -3,7 +3,9 @@
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import TagInput from "@/components/ui/TagInput";
+import { useAlert } from "@/context/AlertContext";
 import { createClient } from "@/lib/supabase/client";
+import { ALERT_TYPES } from "@/lib/constants";
 import { Profile } from "@/types/user";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,20 +28,20 @@ export default function EditProfileForm({
     profile?.skills_wanted ?? [],
   );
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
+  const { setAlert } = useAlert();
 
   const handleSave = async () => {
     setLoading(true);
-    setError("");
 
     if (!fullName.trim()) {
-      setError("Full name is required.");
+      setAlert(ALERT_TYPES.ERROR, "Full name is required.");
       setLoading(false);
       return;
     }
     if (skillsOffered.length === 0 || skillsWanted.length === 0) {
-      setError("Add at least one skill to offer and one to learn.");
+      setAlert(ALERT_TYPES.ERROR, "Add at least one skill to offer and one to learn.");
+      setLoading(false);
       return;
     }
 
@@ -54,11 +56,12 @@ export default function EditProfileForm({
       .eq("id", userId);
 
     if (error) {
-      setError(error.message);
+      setAlert(ALERT_TYPES.ERROR, error.message);
       setLoading(false);
       return;
     }
 
+    setAlert(ALERT_TYPES.SUCCESS, "Profile updated successfully!");
     router.push("/dashboard");
     router.refresh();
   };
@@ -99,9 +102,6 @@ export default function EditProfileForm({
         />
         <p className="text-xs text-muted">Press Enter to add each skill</p>
       </div>
-
-      {/* Error */}
-      {error && <p className="text-sm text-red-500">{error}</p>}
 
       {/* Actions */}
       <div className="flex items-center justify-end gap-3 pt-2 border-t border-border">

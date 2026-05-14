@@ -2,6 +2,7 @@ import Avatar, { AvatarFallback, AvatarImage } from "@/components/ui/Avatar";
 import Card from "@/components/ui/Card";
 import { requireUser } from "@/lib/auth";
 import { initials } from "@/lib/utils";
+import Link from "next/link";
 
 interface SwapProfile {
   id: string;
@@ -45,22 +46,21 @@ async function ActiveSwaps() {
   };
 
   if (error) {
-    console.error("Error fetching active swaps:", error);
     return <p className="text-red-500">Failed to load active swaps.</p>;
   }
 
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-3xl mx-auto px-6 py-12">
-       <div className="mb-8 animate-fadeInUp">
-         <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-dark to-coral bg-clip-text text-transparent mb-2">
-           Active Swaps
-         </h1>
-         <p className="text-sm text-muted">
-          Here are your active swaps. You can chat with your swap partner or
-          cancel the swap if needed.
-        </p>
-       </div>
+        <div className="mb-8 animate-fadeInUp">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-dark to-coral bg-clip-text text-transparent mb-2">
+            Active Swaps
+          </h1>
+          <p className="text-sm text-muted">
+            Here are your active swaps. You can chat with your swap partner or
+            cancel the swap if needed.
+          </p>
+        </div>
         {activeSwaps && activeSwaps.length > 0 ? (
           <ul className="space-y-4 stagger">
             {activeSwaps.map((swap) => {
@@ -92,24 +92,29 @@ async function ActiveSwaps() {
                       </p>
                       <div className="flex gap-4 flex-wrap">
                         <p className="text-sm text-muted">
-                          📤 <span className="font-medium text-teal-dark">{swap.swap_requests.offered_skill}</span>
+                          📤{" "}
+                          <span className="font-medium text-teal-dark">
+                            {swap.swap_requests.offered_skill}
+                          </span>
                         </p>
                         <p className="text-sm text-muted">
-                          📥 <span className="font-medium text-coral">{swap.swap_requests.wanted_skill}</span>
+                          📥{" "}
+                          <span className="font-medium text-coral">
+                            {swap.swap_requests.wanted_skill}
+                          </span>
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3 transition-transform duration-300 group-hover:scale-110">
-                    <button className="p-2 rounded-lg hover:bg-surface transition-all duration-300 hover:shadow-md cursor-pointer text-teal-dark hover:text-teal-dark/80">
-                      <i className="material-symbols-outlined">
-                        chat
-                      </i>
-                    </button>
+                    <Link
+                      href={`/chat/${swap.id}`}
+                      className="p-2 rounded-lg hover:bg-surface transition-all duration-300 hover:shadow-md cursor-pointer text-teal-dark hover:text-teal-dark/80"
+                    >
+                      <i className="material-symbols-outlined">chat</i>
+                    </Link>
                     <button className="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-950 transition-all duration-300 hover:shadow-md cursor-pointer text-red-600 hover:text-red-700">
-                      <i className="material-symbols-outlined">
-                        cancel
-                      </i>
+                      <i className="material-symbols-outlined">cancel</i>
                     </button>
                   </div>
                 </Card>
@@ -122,7 +127,9 @@ async function ActiveSwaps() {
               handshake
             </i>
             <p className="text-muted-foreground">No active swaps found.</p>
-            <p className="text-muted text-sm mt-2">Start exploring to find your first swap!</p>
+            <p className="text-muted text-sm mt-2">
+              Start exploring to find your first swap!
+            </p>
           </div>
         )}
       </div>

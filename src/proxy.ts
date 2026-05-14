@@ -46,7 +46,6 @@ export default async function proxy(request: NextRequest) {
       request.nextUrl.pathname === "/signup" ||
       request.nextUrl.pathname === "/")
   ) {
-    console.log("User is already logged in, redirecting to dashboard");
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

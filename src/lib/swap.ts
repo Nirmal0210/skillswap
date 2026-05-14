@@ -16,7 +16,6 @@ export async function acceptSwap(swapId: string) {
     .single();
 
   if (error || !currentSwap) {
-    console.error("Error accepting swap:", error);
     return;
   }
 
